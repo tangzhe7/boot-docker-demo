@@ -1,7 +1,15 @@
 docker和springBoot结合,官方样例
 编译命令 mvn clean install dockerfile:build
 推送镜像到远程仓库 mvn dockerfile:push
-运行镜像docker run -p 8080:8080 -t springio/gs-spring-boot-docker
+运行镜像docker run -p 8080:8080 -t zzzzz/boot-demo：1.0
 http://localhost:8080/
+profile: docker run -e "SPRING_PROFILES_ACTIVE=prod" -p 8080:8080 -t zzzzz/boot-demo:1.0
 
-
+docker run \
+-e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n \
+-Dcom.sun.management.jmxremote \
+-Dcom.sun.management.jmxremote.port=9010 \
+-Dcom.sun.management.jmxremote.port=9010 \
+-Dcom.sun.management.jmxremote.authenticate=false \
+-Dcom.sun.management.jmxremote.ssl=false \
+-Djava.rmi.server.hostname=127.0.0.1 "  -p 8080:8080 -p 5005:5005 -p 10000:10000  -i zzzzz/boot-demo:1.0
