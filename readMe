@@ -1,0 +1,7 @@
+docker和springBoot结合,官方样例
+编译命令 mvn clean install dockerfile:build
+推送镜像到远程仓库 mvn dockerfile:push
+运行镜像docker run -p 8080:8080 -t springio/gs-spring-boot-docker
+
+
+
