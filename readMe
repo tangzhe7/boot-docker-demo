@@ -2,14 +2,21 @@ docker和springBoot结合,官方样例
 编译命令 mvn clean install dockerfile:build
 推送镜像到远程仓库 mvn dockerfile:push
 运行镜像docker run -p 8080:8080 -t zzzzz/boot-demo：1.0
-http://localhost:8080/
+浏览器访问 http://localhost:8080/
 profile: docker run -e "SPRING_PROFILES_ACTIVE=prod" -p 8080:8080 -t zzzzz/boot-demo:1.0
-
+jmx 和 远程调试
 docker run \
--e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n \
--Dcom.sun.management.jmxremote \
--Dcom.sun.management.jmxremote.port=9010 \
--Dcom.sun.management.jmxremote.port=9010 \
--Dcom.sun.management.jmxremote.authenticate=false \
--Dcom.sun.management.jmxremote.ssl=false \
--Djava.rmi.server.hostname=127.0.0.1 "  -p 8080:8080 -p 5005:5005 -p 10000:10000  -i zzzzz/boot-demo:1.0
+-e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=y -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010   
+-Dcom.sun.management.jmxremote.rmi.port=9110 
+-Dcom.sun.management.jmxremote.local.only=false 
+-Dcom.sun.management.jmxremote.authenticate=false 
+-Dcom.sun.management.jmxremote.ssl=false  
+-Djava.rmi.server.hostname=127.0.0.1 " \
+-e "SPRING_PROFILES_ACTIVE=prod" \
+--init \
+-p 8080:8080 \
+-p 9110:9110 \
+-p 9010:9010 \
+-p 5005:5005 \
+-it \
+zzzzz/boot-demo:1.0
